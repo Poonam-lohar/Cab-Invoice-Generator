@@ -9,4 +9,19 @@ public class CabInvoiceGenerator {
 
         return distance * MINIMUM_COST_PER_KILOMETER + time * COST_PER_TIME;
     }
+
+    static double calculateFareForMultipleRides(Ride[] rides) {
+
+        double totalFare = 0.0;
+        for (Ride ride : rides) {
+            totalFare = calculateFare(ride.getDistance(), ride.getTime());
+        }
+        return totalFare;
+
+    }
+
+    public static void main(String[] args) {
+        CabInvoiceGenerator cabInvoiceGenerator = new CabInvoiceGenerator();
+        System.out.println(cabInvoiceGenerator.calculateFare(5,20) + "Rs");
+    }
 }

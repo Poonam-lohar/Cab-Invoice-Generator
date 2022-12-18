@@ -1,5 +1,6 @@
 package com.bridgelabz;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,4 +16,15 @@ public class CabInvoiceTest {
             double fare = CabInvoiceGenerator.calculateFare(distance, time);
             assertEquals(60, fare);
         }
+    @Test
+    public void givenMultipleRides_ShouldReturnTotalFare() {
+        Ride[] rides = {new Ride(2.0, 5),
+                new Ride(5.0, 10),
+                new Ride(0.1, 1),
+                new Ride(20, 60)
+        };
+        CabInvoiceGenerator invoiceService = new  CabInvoiceGenerator();
+        double totalFare = invoiceService.calculateFareForMultipleRides(rides);
+        Assertions.assertEquals(260, totalFare);
+    }
     }
