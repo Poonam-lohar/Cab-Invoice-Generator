@@ -4,6 +4,8 @@ public class CabInvoiceGenerator {
 
     private static final int MINIMUM_COST_PER_KILOMETER = 10;
     private static final int COST_PER_TIME = 1;
+    private static final int MIN_FARE = 5;
+
 
     public static double calculateFare(double distance, int time) {
 
@@ -18,6 +20,14 @@ public class CabInvoiceGenerator {
         }
         return totalFare;
 
+    }
+    public InvoiceSummary invoiceSummaryCalculation(Ride[] rides) {
+
+        double totalFare =0;
+        for (Ride ride : rides) {
+            totalFare += calculateFare(ride.getDistance(),ride.getTime());
+        }
+        return new InvoiceSummary(rides.length,totalFare);
     }
 
     public static void main(String[] args) {
