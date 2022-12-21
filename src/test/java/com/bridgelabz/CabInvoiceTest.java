@@ -7,26 +7,35 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CabInvoiceTest {
 
-    CabInvoiceGenerator cabInvoiceGenerator = new CabInvoiceGenerator();
-
     @Test
     public void givenDistanceAndTime_ShouldReturnTotalFare() {
-        double distance = 5;
-        int time = 10;
-        double fare = CabInvoiceGenerator.calculateFare(distance, time);
-        assertEquals(60, fare);
+        CabInvoiceGenerator invoiceService = new CabInvoiceGenerator();
+        double distance = 2.0;
+        int time = 5;
+        double totalFare = invoiceService.calculateFare(distance, time);
+        Assertions.assertEquals(25, totalFare, 0);
     }
 
     @Test
-    public void givenMultipleRides_ShouldReturnTotalFare() {
-        Ride[] rides = {new Ride(2, 5),
-                new Ride(5, 10),
-                new Ride(1, 1),
+    public void givenLessDistanceAndTime_ShouldReturnMinFare() {
+        CabInvoiceGenerator invoiceService = new CabInvoiceGenerator();
+        double distance = 0.1;
+        int time = 1;
+        double totalFare = invoiceService.calculateFare(distance, time);
+        Assertions.assertEquals(5.0, totalFare, 0);
+    }
+
+    @Test
+    public void givenMultipleRides_ShouldReturnTotalOfTotalFare() {
+        Ride[] rides = {new Ride(2.0, 5),
+                new Ride(5.0, 10),
+                new Ride(0.1, 1),
                 new Ride(20, 60)
         };
         CabInvoiceGenerator invoiceService = new CabInvoiceGenerator();
         double totalFare = invoiceService.calculateFareForMultipleRides(rides);
-        Assertions.assertEquals(260, totalFare);
+        Assertions.assertEquals(260, totalFare, 0);
+        System.out.println(totalFare);
     }
 
     @Test
@@ -37,5 +46,16 @@ public class CabInvoiceTest {
         CabInvoiceGenerator invoiceService = new CabInvoiceGenerator();
         InvoiceSummary invoiceSummery = invoiceService.invoiceSummaryCalculation(rides);
         InvoiceSummary expectedInvoices = new InvoiceSummary(2, 30.0);
+        Assertions.assertEquals(expectedInvoices, invoiceSummery);
+
+    }
+
+    @Test
+    public void givenUserId_ShouldReturnInvoiceSummary() {
+        CabInvoiceGenerator invoiceService = new CabInvoiceGenerator();
+        InvoiceSummary invoiceSummary = invoiceService.getInvoice(1);
+        InvoiceSummary expectedInvoices = new InvoiceSummary(2, 30);
+        Assertions.assertEquals(invoiceSummary,expectedInvoices );
+
     }
 }
